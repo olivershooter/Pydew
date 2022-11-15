@@ -27,13 +27,28 @@ class Player(pygame.sprite.Sprite):  # because it's a sprite
 
         # timers
         self.timers = {
-            'tool use': Timer(350, self.use_tool)
+            'tool use': Timer(350, self.use_tool),
+            'tool switch': Timer(200),
+            'seed use': Timer(350, self.use_seed),
+            'seed switch': Timer(200)
         }
         # tools
-        self.selected_tool = 'axe'
+        self.tools = ['hoe', 'axe', 'water']
+        self.tool_index = 0
+        self.selected_tool = self.tools[self.tool_index]
+
+        # seeds for game
+        self.seeds = ['corn', 'tomato']
+        self.seed_index = 0
+        self.selected_seed = self.seeds[self.seed_index]
 
     def use_tool(self):
-        print(self.selected_tool)
+        pass
+        # print(self.selected_tool)
+
+    def use_seed(self):
+        pass
+        # print(self.selected_tool)
 
     # importing the pixel art for the different animations
     # dictionary of the keys plus their values
@@ -92,6 +107,32 @@ class Player(pygame.sprite.Sprite):  # because it's a sprite
                 self.direction = pygame.math.Vector2()
                 # make the animation smoother
                 self.frame_index = 0
+
+            # changing the tool
+            if keys[pygame.K_q] and not self.timers['tool switch'].active:
+                self.timers['tool switch'].activate()
+                self.tool_index += 1
+                # if the tool index is > length of tools available then set the tool index to 0
+                self.tool_index = self.tool_index if self.tool_index < len(self.tools) else 0
+                self.selected_tool = self.tools[self.tool_index]
+
+            # seed use
+            if keys[pygame.K_LCTRL]:
+                self.timers['seed use'].activate()
+                # stops the player from moving with the tool use is active
+                self.direction = pygame.math.Vector2()
+                # make the animation smoother
+                self.frame_index = 0
+                print('use seed')
+
+            # change seeds
+            if keys[pygame.K_e] and not self.timers['seed switch'].active:
+                self.timers['seed switch'].activate()
+                self.seed_index += 1
+                # if the tool index is > length of tools available then set the tool index to 0
+                self.seed_index = self.seed_index if self.seed_index < len(self.seeds) else 0
+                self.selected_seed = self.seeds[self.seed_index]
+                # print('changed selected seed')
 
     def get_status(self):
 

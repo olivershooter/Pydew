@@ -1,6 +1,7 @@
 import pygame
 from settings import *
 from player import Player
+from overlay import Overlay
 
 
 class Level:
@@ -12,6 +13,7 @@ class Level:
         self.all_sprites = pygame.sprite.Group()  # draw and update things in the game
 
         self.setup()
+        self.overlay = Overlay(self.player)  # happens after setup because in setup you create te player
 
     def setup(self):
         self.player = Player((640, 360), self.all_sprites)
@@ -20,3 +22,5 @@ class Level:
         self.display_surface.fill('black')  # drawing a black colour, so we don't see the previous frame when running
         self.all_sprites.draw(self.display_surface)  # drawing on the display surface
         self.all_sprites.update(dt)  # updates all the sprites // also runs the player update method
+
+        self.overlay.display()
