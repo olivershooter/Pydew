@@ -1,6 +1,5 @@
 import pygame
 import sys  # to help close the game properly
-
 from level import Level
 from settings import *
 

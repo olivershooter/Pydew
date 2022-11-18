@@ -1,7 +1,7 @@
 import pygame
 from settings import *
 from support import *
-from timer import *
+from timer import Timer
 
 
 class Player(pygame.sprite.Sprite):  # because it's a sprite
@@ -15,6 +15,7 @@ class Player(pygame.sprite.Sprite):  # because it's a sprite
         # general setup
         self.image = self.animations[self.status][self.frame_index]  # what sprite looks like
         self.rect = self.image.get_rect(center=pos)  # position based on the parameter position
+        self.z = LAYERS['main']
 
         # movement attributes
         self.direction = pygame.math.Vector2()
